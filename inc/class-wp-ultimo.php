@@ -211,6 +211,7 @@ final class WP_Ultimo {
 
 		/**
 		 * Loads admin pages
+		 *
 		 * @todo: Move this to a manager in the future?
 		 */
 		$this->load_admin_pages();
@@ -563,6 +564,11 @@ final class WP_Ultimo {
 		\WP_Ultimo\Dashboard_Statistics::get_instance();
 
 		/*
+		 * Network Plugins/Themes usage columns
+		 */
+		\WP_Ultimo\Admin\Network_Usage_Columns::get_instance();
+
+		/*
 		 * Loads User Switching
 		 */
 		\WP_Ultimo\User_Switching::get_instance();
@@ -597,6 +603,11 @@ final class WP_Ultimo {
 		\WP_Ultimo\Whitelabel::get_instance();
 
 		/*
+		 * Optional Footer Credits (opt-in, defaults OFF)
+		 */
+		\WP_Ultimo\Credits::get_instance();
+
+		/*
 		 * Adds support to multiple accounts.
 		 *
 		 * This used to be an add-on on Ultimate Multisite 1.X
@@ -614,6 +625,12 @@ final class WP_Ultimo {
 		 *  Admin Themes Compatibility for Ultimate Multisite
 		 */
 		\WP_Ultimo\Admin_Themes_Compatibility::get_instance();
+
+		add_filter(
+			'action_scheduler_lock_class',
+			// phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
+			fn ($class_name) => \WP_Ultimo\Compat\ActionScheduler_OptionLock_UM::class
+		);
 
 		/*
 		 * Cron Schedules
